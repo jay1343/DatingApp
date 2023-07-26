@@ -1,40 +1,39 @@
-<table class="table table-dark table-striped-columns">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Num1</th>
-            <th scope="col">Num2</th>
-          </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of excelData; let i = index">
-        <th scope="row">{{ data.row }}</th>
-        <td><input 
-          name="num1"
-          [(ngModel)]="data.num1"
-          class="form-control me-2"
-          type="number"></td>
-        <td><input 
-          name="num1"
-          [(ngModel)]="data.num2"
-          class="form-control me-2" 
-          type="number"></td>
-      </tr>
-    </tbody>
-</table>
+<div *ngIf="excelData && excelData.length>0">
+  <table class="table table-dark table-striped-columns">
+      <thead>
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">Num1</th>
+              <th scope="col">Num2</th>
+            </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of excelData; let i = index">
+          <th scope="row">{{ data.row }}</th>
+          <td><input 
+            name="num1"
+            [(ngModel)]="data.num1"
+            class="form-control me-2"
+            type="number"></td>
+          <td><input 
+            name="num1"
+            [(ngModel)]="data.num2"
+            class="form-control me-2" 
+            type="number"></td>
+        </tr>
+      </tbody>
+  </table>
 
-<button type="button" class="btn btn-dark float-end m-lg-1" (click)="readOutputExcel()">Get Output</button>
-<button type="button" class="btn btn-dark float-end m-lg-1" (click)="updateExcel()">Update Excel sheet</button>
-
+  <button type="button" class="btn btn-dark float-end m-lg-1" (click)="readOutputExcel()">Get Output</button>
+  <button type="button" class="btn btn-dark float-end m-lg-1" (click)="updateExcel()">Update Excel sheet</button>
+</div>
 <table class="table table-dark table-striped-columns" *ngIf="outputExcelData && outputExcelData.length > 0">
   <thead>
       <tr>
           <th scope="col">#</th>
           <th scope="col">Num1</th>
           <th scope="col">Num2</th>
-          <th scope="col">F1</th>
-          <th scope="col">F2</th>
-          <th scope="col">F3</th>
+          <th scope="col">Calculation</th>
         </tr>
   </thead>
   <tbody>
@@ -42,9 +41,7 @@
       <th scope="row">{{ data.row }}</th>
       <td>{{ data.num1 }}</td>
       <td>{{ data.num2 }}</td>
-      <td>{{ data.formula1 }}</td>
-      <td>{{ data.formula2 }}</td>
-      <td>{{ data.formula3 }}</td>
+      <td>{{ data.calculation }}</td>
     </tr>
   </tbody>
 </table>

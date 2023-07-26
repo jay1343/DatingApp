@@ -1,0 +1,11 @@
+.container {
+  background-color: #f2f2f2; 
+  padding: 20px; 
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px
+}

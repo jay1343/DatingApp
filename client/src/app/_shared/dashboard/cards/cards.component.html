@@ -1,0 +1,35 @@
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body" 
+                    [attr.name]="'chartjs'"
+                    (click)="chartProviderChanged($event)">
+                Chart.js
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body" 
+                    [attr.name]="'highcharts'"
+                    (click)="chartProviderChanged($event)">
+                Highcharts
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="main-panel">
+
+    <div class="row mt-3">
+        <div class="container m-2 col-lg-11">
+            <app-cards (onChange)="chartChangeEvent($event)"></app-cards>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="container col-lg-7 m-2">
+            <div>
+                <app-barchart [chartData]="chartData" (onChange)="childClickEvent($event)"></app-barchart>
+            </div>
+        </div>
+        <div class="container col-lg-4 m-2">
+            <div>
+                <app-piechart [chartData]="chartData" (onChange)="childClickEvent($event)"></app-piechart>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="container col-lg-4 m-2">
+            <div>
+                <app-radarchart [chartData]="chartData" (onChange)="childClickEvent($event)"></app-radarchart>
+            </div>
+        </div>
+        <div class="container col-lg-7 m-2">
+            <div>
+                <app-linechart [chartData]="chartData" (onChange)="childClickEvent($event)"></app-linechart>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="container col-lg-11 m-2">
+            <div>
+                <app-scatterchart></app-scatterchart>
+            </div>
+        </div>
+    </div>
+</div>

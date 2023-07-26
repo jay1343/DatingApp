@@ -1,0 +1,9 @@
+<div>
+    <div *ngIf="chartProvider === 'chartjs'">
+        <canvas id="lineChart"></canvas>
+      </div>
+    
+      <div *ngIf="chartProvider === 'highcharts'">
+        <div #chartContainer id="container"></div>
+      </div>
+</div>

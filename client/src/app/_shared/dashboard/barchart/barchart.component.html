@@ -1,0 +1,10 @@
+<div>
+  <div *ngIf="chartProvider === 'chartjs'">
+    <canvas id="barChart"></canvas>
+  </div>
+
+  <div *ngIf="chartProvider === 'highcharts'">
+    <div #chartContainer id="container"></div>
+  </div>
+
+</div>
