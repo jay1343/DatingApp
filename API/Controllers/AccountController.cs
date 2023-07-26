@@ -15,59 +15,61 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenServices _tokenService;
-        public AccountController(DataContext context, ITokenServices tokenService) {
+        public AccountController(DataContext context, ITokenServices tokenService)
+        {
             _tokenService = tokenService;
             _context = context;
         }
-        
-        [HttpPost("register")]  //  POST: api/account/register
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto) {
-            
-            using (var context = _context.GetService()) {
-                if( await UserExists(registerDto.Username) ) return BadRequest("UserName is already Exists");
 
-                using var hmac = new HMACSHA512();
-                var user = new AppUser{
+        [HttpPost("register")]  //  POST: api/account/register
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        {
+
+            if (await UserExists(registerDto.Username)) return BadRequest("UserName is already Exists");
+
+            using var hmac = new HMACSHA512();
+            var user = new AppUser
+            {
                 UserName = registerDto.Username.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key  
-                };
-                context.Add(user);
-                await context.SaveChangesAsync();
+                PasswordSalt = hmac.Key
+            };
+            _context.Add(user);
+            await _context.SaveChangesAsync();
 
-                return new UserDto{
-                    Username = user.UserName,
-                    Token = _tokenService.CreateToken(user)
-                };
-            }
+            return new UserDto
+            {
+                Username = user.UserName,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto) {
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        {
 
-            using (var context = _context.GetService()) {
-                var user = await context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
-                if (null == user) return Unauthorized("Invalid UserName");
+            if (null == user) return Unauthorized("Invalid UserName");
 
-                var hmac = new HMACSHA512(user.PasswordSalt);
-                
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password) );
+            var hmac = new HMACSHA512(user.PasswordSalt);
 
-                for (int i=0; i<computedHash.Length; i++) {
-                    if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
-                }
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
-                return new UserDto{
-                    Username = user.UserName,
-                    Token = _tokenService.CreateToken(user)
-                };
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
             }
+
+            return new UserDto
+            {
+                Username = user.UserName,
+                Token = _tokenService.CreateToken(user)
+            };
         }
-        private async Task<bool> UserExists(string username) {
-            using (var context = _context.GetService()) {
-                return await context.Users.AnyAsync(x => x.UserName == username.ToLower());
-            }
+        private async Task<bool> UserExists(string username)
+        {
+            return await _context.Users.AnyAsync(x => x.UserName == username.ToLower());
         }
     }
 }
